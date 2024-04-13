@@ -3,8 +3,10 @@ I am currently trying to complete some projects in order to teach myself C++ and
 
 ## Current:
 - Tic-tac-toe
+- Magic8 ball
 
 ## Next:
+- Rock, Paper, Scissors, Lizard, Spock
 - Zork-like
 - Guessing-game
 - Pong
