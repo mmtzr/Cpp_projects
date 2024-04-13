@@ -1,65 +1,94 @@
 // TicTacToe.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
 
-#include <iostream>
-using namespace std;
+#include "TicTacToe.h"
 
-// GLOBAL
-// create the game space and initiate with coordinates
-int game_space[3][3] = { {1, 2, 3}, {4, 5, 6}, {7, 8, 9} };
-int digit;
-int row, col;
-char token;
+
 
 int main()
 {
+    char winner = ' ';
+    
+    resetBoard();
 
-    // players' names
-    string n1, n2;
-    cout << "Enter the name of the first player (X):\n";
-    cin >> n1;
-    cout << "Enter the name of the second player (O):\n";
-    cin >> n2;
-    // draw initial structure
-    draw_structure();
-    // begin game loop
-    int i = 1;
     
 
-    while (i!=0) {
-        cout << "Player " << n1 << " enter coordinates.\n";
-        cin >> digit;
-        switch (digit) {
-            case 0:
-               row = 0;
-               col = 1;
+    std::cout << "Enter your character [X/O]: \n";
+    std::cin >> player_token;
+    player_token = toupper(player_token);
+    if (player_token == 'X') {
+        ai_token = 'O';
+    }
+    else if (player_token == 'O') {
+        ai_token = 'X';
+    }
+    else {
+        std::cout << "Invalid input. Please enter X or O. \n";
+    }
 
-            }
-        
-            
+    // game loop
+    while (winner == ' ' && checkFreeSpaces() != 0) {
+        printBoard();
+        playerMove();
+        printBoard();
+        computerMove();
+        printBoard();
+        checkWinner();
+    }
+    
+}
+
+void resetBoard()
+{
+    // create an empty 3x3 board
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            board[i][j] = ' ';
+        }
     }
 }
 
-void draw_structure() {
-    cout << "      |      |     \n";
-    cout << "  " << game_space[0][0] << "  |  " << game_space[0][1] << "  |  " << game_space[0][2] << "  \n";
-    cout << "______|______|_____\n";
-    cout << "      |      |     \n";
-    cout << "  " << game_space[1][0] << "  |  " << game_space[1][1] << "  |  " << game_space[1][2] << "  \n";
-    cout << "______|______|_____\n";
-    cout << "      |      |     \n";
-    cout << "  " << game_space[2][0] << "  |  " << game_space[2][1] << "  |  " << game_space[2][2] << "  \n";
-    cout << "      |      |     \n";
-
+void printBoard() 
+{
+    // print the board
+    for (int i = 0; i < 2; i++) {
+        printf("  %c | %c | %c \n", board[0][i], board[1][i], board[2][i]);
+        printf("  --|---|-- \n");
+    }
+    printf("  %c | %c | %c \n", board[0][2], board[1][2], board[2][2]);
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+int checkFreeSpaces()
+{
+    // check and return how many free spaces are left
+    int freeSpaces = 0;
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (board[i][j] != ' ') {
+                freeSpaces--;
+            }
+        }
+    }
+    return freeSpaces;
+}
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+void playerMove()
+{
+    int row, col;
+    std::cout << "Enter row #(1-3): \n";
+    std::cin >> row;
+    row--;
+    std::cout << "Enter column #(1-3): \n";
+    std::cin >> col;
+    col--;
+
+    // loop until player gives a valid input
+    do {
+        if (board[row][col] != ' ') {
+            std::cout << "Invalid move!\n";
+        }
+        else {
+            board[row][col] = player_token;
+        }
+    } while (board[row][col] != ' ');
+    
+}
