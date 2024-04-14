@@ -6,8 +6,11 @@
 char board[3][3];
 char player_token, ai_token;
 
+
+
 void resetBoard();
 void printBoard();
+int Move(int);
 int checkFreeSpaces();
 void playerMove();
 void computerMove();
